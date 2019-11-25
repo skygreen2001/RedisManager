@@ -1,0 +1,41 @@
+{
+  "name": "skygreen/orm",
+  "version": "1.0.0",
+  "description": "a mini framework designed to compatiable with other php framework like drupal,thinkphp",
+  "keywords": [
+      "cms", "api", "php", "framework", "bb", "orm"
+  ],
+  "homepage": "https://github.com/skygreen2001/betterlife.core",
+  "license": "GPL",
+  "authors": [
+      {
+          "name": "skygreen2001",
+          "email": "skygreen2001@gmail.com",
+          "homepage": "http://blog.csdn.net/skygreen2001",
+          "role": "Developer For Better"
+      }
+  ],
+  "autoload": {
+    "classmap" : [
+      "../core/main/Initializer.php",
+      "../init.php"
+    ]
+  },
+  "config":{
+      "secure-http": false
+  },
+  "repositories": [
+    {
+        "type": "pear",
+        "url": "https://pear.php.net"
+    }
+  ],
+  "require": {
+    "php"                : ">=5.2.0",
+    "phpoffice/phpspreadsheet": "^1.2"
+  },
+  "require-dev": {
+    "pagon/composer-packer": "0.1.x"
+  },
+  "_comment": "pagon/composer-packer: Packer to build tar.gz for composer project."
+}
