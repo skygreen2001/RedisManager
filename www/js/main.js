@@ -10,41 +10,41 @@ var app = new Vue({
             server: '', // 选中的服务器
             db    : '', // 选中的db
             key   : '', // 选中的key
-            serves: [], // 所有服务器列表
-            dbs   : [], // 选中的服务器所有的db列表
-            keys  : [], // redis里所有的主键
+            sel_server: '', // 选中服务器显示[标题栏]
+            sel_db    : '', // 选中DB显示[标题栏]
+            sel_key   : '', // 选中key显示[标题栏]
+            serves  : [], // 所有服务器列表
+            dbs     : [], // 选中的服务器所有的db列表
+            keys    : [], // redis里所有的主键
             page    : 1,    // 当前页数
             pageSize: 1000, // 每页键数量
-            result: '', // 选中key后的value
-            resultTypeShow  : "",    // 键值类型显示
-            valType         : 1,     // 指定Redis键值的类型，默认是1:字符串； 2: set
-            isLoadingShow   : false, // 是否显示DB菜单
-            addserverModel  : false, // 是否显示新增服务器窗口
-            addNewKeyModel  : false, // 是否显示新增键值设置窗口
-            deleteDbModel   : false, // 是否显示删除Db窗口
-            configModel     : false, // 是否显示设置窗口
-            uploadDbModel   : false, // 是否上传DB键值Excel数据
-            isConfirmAction : false, // 是否显示确认操作窗口
-            isConfActionDb  : false, // 是否显示确认删除DB操作窗口
-            addNewType      : '',    // 新增的键类型
-            addNewKey       : '',    // 新增的键
-            addNewValue     : '',    // 新增的值
-            valueSample     : '',    // 新增的值示例
-            countKeys       : 0,     // 共计主键
-            latestKeys      : 0,     // 当前键最新总数
-            sel_server      : '',    // 选中服务器显示
-            sel_db          : '',    // 选中DB显示
-            sel_key         : '',    // 选中key显示
-            deleteOne       : '',    // 需要删除的DB
-            customIP        : '',    // 自定义IP
-            queryKey        : '',    // 查询键
-            upload_file     : [],    // 上传文件
-            unModify        : false, // 一般是经过序列化编码的Java对象
-            css             : {
+            result         : '', // 选中key后的value
+            resultTypeShow : "",    // 键值类型显示
+            valType        : 1,     // 指定Redis键值的类型，默认是1:字符串； 2: set
+            isLoadingShow  : false, // 是否显示DB菜单
+            addserverModel : false, // 是否显示新增服务器窗口
+            addNewKeyModel : false, // 是否显示新增键值设置窗口
+            deleteDbModel  : false, // 是否显示删除Db窗口
+            configModel    : false, // 是否显示设置窗口
+            uploadDbModel  : false, // 是否上传DB键值Excel数据
+            isConfirmAction: false, // 是否显示确认操作窗口
+            isConfActionDb : false, // 是否显示确认删除DB操作窗口
+            addNewType     : '',    // 新增的键类型
+            addNewKey      : '',    // 新增的键
+            addNewValue    : '',    // 新增的值
+            valueSample    : '',    // 新增的值示例
+            countKeys      : 0,     // 共计主键
+            latestKeys     : 0,     // 当前键最新总数
+            deleteOne      : '',    // 需要删除的DB
+            customIP       : '',    // 自定义IP
+            queryKey       : '',    // 查询键
+            upload_file    : [],    // 上传文件
+            unModify       : false, // 一般是经过序列化编码的Java对象
+            css            : {
                 r_lf_ht: '600px',
                 r_rt_ht: '600px'
             },
-            configs         : {
+            configs        : {
                 columns: [
                     {
                         title: '标识',
@@ -107,7 +107,7 @@ var app = new Vue({
             }
             if ( name != "1" && name!= "8" ) {
                 this.server     = name
-                let index = this.serves.findIndex(e => e.id == name);
+                let index       = this.serves.findIndex(e => e.id == name);
                 this.sel_server = this.serves[index].text;
                 this.sel_db     = "";
                 this.sel_key    = "";
@@ -334,12 +334,39 @@ var app = new Vue({
             this.configs.data.splice(this.configs.deleteOne, 1);
             this.configs.deleteOne = -1;
         },
+        initParamServer: function(step) {
+            let params = {
+                step: step
+            };
+            let server_id = this.server;
+            if ( this.isConfigLocal ) {
+                if ( localStorage.configs ) {
+                    let data = JSON.parse(localStorage.configs);
+                    if ( data && data.length >0 ) {
+                        let index = data.findIndex(e => e.id == server_id);
+                        if ( index >= 0 ) {
+                            let serverConfig = data[index];
+                            params.server   = serverConfig.server;
+                            params.port     = serverConfig.port;
+                            params.password = serverConfig.password;
+                        } else {
+                            this.configModel = true;
+                        }
+                    } else {
+                        this.configModel = true;
+                    }
+                } else {
+                    this.configModel = true;
+                }
+            } else {
+                params.isConfigRemote = true;
+                params.server_id = server_id;
+            }
+            return params;
+        },
         getDbs: function() {
             var ctrl   = this;
-            let params = {
-                step     : 1,
-                server_id: this.server
-            };
+            let params = this.initParamServer(1);
             this.dbs    = [];
             this.keys   = [];
             this.result = '';
@@ -370,10 +397,7 @@ var app = new Vue({
         },
         addDb: function() {
             var ctrl = this;
-            let params = {
-                step     : 101,
-                server_id: this.server
-            };
+            let params = this.initParamServer(101);
             this.dbs = [];
             this.initKeys();
             this.isLoadingShow = true;
@@ -408,13 +432,10 @@ var app = new Vue({
             this.isConfActionDb = true;
         },
         deleteDb: function() {
-            var ctrl = this;
-            let params = {
-                step     : 102,
-                server_id: this.server,
-                db       : this.deleteOne
-            };
-            this.dbs    = [];
+            var ctrl   = this;
+            let params = this.initParamServer(102);
+            params.db  = this.deleteOne;
+            this.dbs   = [];
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params
@@ -466,14 +487,11 @@ var app = new Vue({
             this.getKeys();
         },
         getKeys: function(name) {
-            var ctrl = this;
-            let params = {
-                step     : 2,
-                server_id: this.server,
-                db       : this.db,
-                page     : this.page,
-                pageSize : this.pageSize
-            };
+            var ctrl    = this;
+            let params  = this.initParamServer(2);
+            params.db   = this.db;
+            params.page     = this.page;
+            params.pageSize = this.pageSize;
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params
@@ -499,14 +517,11 @@ var app = new Vue({
         },
         doQueryKey: function() {
             var ctrl = this;
-            let params = {
-                step     : 5,
-                server_id: this.server,
-                db       : this.db,
-                queryKey : this.queryKey,
-                page     : this.page,
-                pageSize : this.pageSize
-            };
+            let params  = this.initParamServer(5);
+            params.db   = this.db;
+            params.queryKey = this.queryKey;
+            params.page     = this.page;
+            params.pageSize = this.pageSize;
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params
@@ -535,12 +550,9 @@ var app = new Vue({
             var ctrl = this;
             this.valType = 1;
             this.sel_key = key;
-            let params = {
-                step     : 3,
-                server_id: this.server,
-                db       : this.db,
-                key      : this.key
-            };
+            let params = this.initParamServer(3);
+            params.db  = this.db;
+            params.key = this.key;
             this.isLoadingShow = true;
             this.unModify      = false;
             axios.get(this.apiUrl, {
@@ -587,14 +599,11 @@ var app = new Vue({
                     result = result.trim().replace(/\n/g, "<(||)>");
                 }
             }
-            let params = {
-                step     : 4,
-                server_id: this.server,
-                db       : this.db,
-                key      : this.key,
-                valType  : this.valType,
-                result   : result
-            };
+            let params     = this.initParamServer(4);
+            params.db      = this.db;
+            params.key     = this.key;
+            params.valType = this.valType;
+            params.result  = result;
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params
@@ -651,14 +660,11 @@ var app = new Vue({
                     // console.log(result);
                 }
             }
-            let params = {
-                step       : 6,
-                server_id  : this.server,
-                db         : this.db,
-                addNewType : this.addNewType,
-                addNewKey  : this.addNewKey,
-                addNewValue: addNewValue
-            };
+            let params  = this.initParamServer(6);
+            params.db          = this.db;
+            params.addNewType  = this.addNewType;
+            params.addNewKey   = this.addNewKey;
+            params.addNewValue = addNewValue;
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params
@@ -681,12 +687,9 @@ var app = new Vue({
         },
         onDeleteKey() {
           var ctrl = this;
-          let params = {
-              step     : 7,
-              server_id: this.server,
-              db       : this.db,
-              key      : this.sel_key
-          };
+          let params  = this.initParamServer(7);
+          params.db   = this.db;
+          params.key  = this.sel_key;
           this.isLoadingShow = true;
           let del_key = this.sel_key;
           axios.get(this.apiUrl, {
@@ -721,12 +724,9 @@ var app = new Vue({
         },
         onUploadDbData: function(data) {
             var ctrl = this;
-            let params = {
-                step     : 9,
-                server_id: this.server,
-                db       : this.db,
-                ufile    : this.upload_file
-            };
+            let params   = this.initParamServer(9);
+            params.db    = this.db;
+            params.ufile = this.upload_file;
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params
@@ -745,12 +745,9 @@ var app = new Vue({
         },
         onDownload: function() {
             var ctrl = this;
-            let params = {
-                step     : 8,
-                server_id: this.server,
-                db       : this.db,
-                queryKey : this.queryKey
-            };
+            let params      = this.initParamServer(8);
+            params.db       = this.db;
+            params.queryKey = this.queryKey;
             this.isLoadingShow = true;
             axios.get(this.apiUrl, {
                       params: params

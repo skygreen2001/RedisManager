@@ -5,20 +5,29 @@ require_once ("../../init.php");
 
 $step   = @$_GET["step"];     // 菜单操作
 if ( !empty($step) ) {
+    $isRemote  = @$_GET["isConfigRemote"];
     $server_id = @$_GET["server_id"];
     $db        = @$_GET["db"];
     $key       = @$_GET["key"];
     $val       = @$_GET["result"];
-    // Redis服务器数据信息查询
-    if ( !empty($server_id) ) {
-        $config_need = server_config($server_id);
-        if ( $config_need ) {
-            extract($config_need);
-        } else {
-            return;
+
+    if ( isset($isRemote) && $isRemote == true ) {
+        if ( !empty($server_id) ) {
+            // Redis服务器数据信息查询
+            $config_need = server_config($server_id);
+            if ( $config_need ) {
+                extract($config_need);
+            } else {
+                return;
+            }
         }
-        $serverCache = BBCache::singleton()->redisServer($server, $port, $password);
+    } else {
+        $server   = @$_GET["server"];
+        $port     = @$_GET["port"];
+        $password = @$_GET["password"];
     }
+    $serverCache = BBCache::singleton()->redisServer($server, $port, $password);
+
     $result = '';
     switch ($step) {
       // 查询Redis服务器设置列表
@@ -363,7 +372,7 @@ if ( !empty($action) ) {
  * 首先检查upload目录下是否有该配置文件，如果没有，就从api默认文件复制到upload路径下
  */
 function config_path() {
-    $config_redis_file = Gc::$nav_root_path . "api" . DS ."common" . DS . "redis.json";
+    $config_redis_file = Gc::$nav_root_path . "api" . DS ."web" . DS . "data" . DS . "redis.json";
     $config_dest       = Gc::$upload_path . "redis" . DS ."config" . DS . "redis.json";
     UtilFileSystem::createDir( dirname($config_dest) );
     if ( !file_exists($config_dest) ) {
