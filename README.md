@@ -4,39 +4,14 @@
 
 ## 安装说明
 
-### 推荐方式
-
 * **通过Github官网下载**
 
-  官网地址: https://github.com/skygreen2001/betterlife.git
+  官网地址: https://github.com/skygreen2001/RedisManager
 
   ```
-  > git clone https://github.com/skygreen2001/betterlife.git
-  > git clone git@github.com:skygreen2001/betterlife.git
+  > git clone https://github.com/skygreen2001/RedisManager.git
+  > git clone git@github.com:skygreen2001/RedisManager.git
   ```
-
-* **安装 composer**
-
-  安装composer: http://docs.phpcomposer.com/00-intro.html
-
-  - 安装目录: 在根路径/install 目录下
-
-* **安装Gulp**
-
-  ```
-  > npm install -g gulp
-  ```
-
-* **安装目录下运行**
-
-  安装目录是根目录下的install目录, 即本说明文件目录下
-
-  - 运行composer
-
-    ```
-    > composer install
-    ```
-    [Mac电脑用户]: sudo composer install
 
 ## 运行环境安装
 
@@ -66,6 +41,23 @@
 
   - 本地运行PHP server: php -S localhost:8000)
 
+
+* **安装 PhpRedis**
+
+  - 安装PhpRedis: https://github.com/phpredis/phpredis/blob/develop/INSTALL.markdown
+
+* **安装 composer**
+
+  安装composer: http://docs.phpcomposer.com/00-intro.html
+
+  - 安装目录: 在根路径/install 目录下
+  - 运行composer
+
+    ```
+    > composer install
+    ```
+    [Mac电脑用户]: sudo composer install
+
 ## 云部署
 
 * [阿里云](https://market.aliyun.com/developer)
@@ -88,7 +80,7 @@
   - api    : ajax请求服务端服务支持[手机或Web前端ajax请求返回json数据]
   - www: 自适应html5Web网页[内嵌在手机App里]
   - log    : 日志目录，每天一个调试测试日志文件放在这里
-  - upload : 后台上传文件(如图片、pdf)放置目录 
+  - upload : 后台上传下载文件(如excel)放置目录 
 
 
 ## 参考资料
