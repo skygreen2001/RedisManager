@@ -17,3 +17,5 @@ $application_env=array();
 
 $application = new Application($application_env);
 $application->run();
+
+header("location:" . Gc::$url_base . "www/index.html");

@@ -1,6 +1,8 @@
 # Online Redis Manager
 
 符合中国开发者思维方式的在线Redis管理工具的框架，设计初衷快捷、简单、实用。
+主要采用betterlife框架、betterlife.front框架中[web/vuejs]模块快速开发而成。
+底层前端主要使用了Vuejs、iView框架；后端使用了PhpRedis、PhpSpreadsheet框架。
 
 ## 安装说明
 
@@ -41,10 +43,23 @@
 
   - 本地运行PHP server: php -S localhost:8000)
 
-
 * **安装 PhpRedis**
 
   - 安装PhpRedis: https://github.com/phpredis/phpredis/blob/develop/INSTALL.markdown
+  - Mac安装PhpRedis
+    - Mac安装Pecl: https://pear.php.net/manual/en/installation.getting.php
+    - sudo pecl channel-update https://pecl.php.net/channel.xml
+    - sudo pecl update-channels
+    - pecl search redis
+    - sudo pecl install redis
+    - Mac开启关闭SIP（系统完整性保护）
+      - 重启MAC，按住cmd+R直到屏幕上出现苹果的标志和进度条，进入Recovery模式
+      - 在屏幕最上方的工具栏找到实用工具（左数第3个），打开终端，输入：
+        - csrutil disable
+      - 重启mac
+    - sudo vi /php.ini
+      - extension=redis.so
+    - 重启Apache: sudo apachectl restart
 
 * **安装 composer**
 
@@ -73,6 +88,7 @@
 * [Sublime](http://www.sublimetext.com)
 
 ## 框架目录定义
+
   - core   : 框架核心支持文件
     - core/config      : 配置文件[各个功能模块]
     - core/include     : 常用的函数库
@@ -82,11 +98,20 @@
   - log    : 日志目录，每天一个调试测试日志文件放在这里
   - upload : 后台上传下载文件(如excel)放置目录 
 
+## 服务器配置模式
+
+  - 在 www/js/main.js 里配置 isConfigLocal
+    - isConfigLocal: true, 意味着服务器配置都持久化存储在本地
+    - isConfigLocal: false, 意味着服务器配置都持久化存储在服务器上，建议内部本地使用，可只需配置一次。
+    - 默认存储在本地浏览器localStorage里，确保使用工具千人千面。
 
 ## 参考资料
-
+* **Betterlife**
+  > https://threejs.org/docs/index.html#manual/en/introduction/How-to-run-things-locally
+* **Betterlife.Front**
+  > https://github.com/skygreen2001/betterlife.front/tree/master/web/vuejs
 * **本地运行服务器**
-  > https://threejs.org/docs/index.html#manual/en/introduction/How-to-run-things-locally、
+  > https://threejs.org/docs/index.html#manual/en/introduction/How-to-run-things-locally
 * **安装Composer**
   > http://www.phpcomposer.com/
 * **下载PhpSpreadsheet**

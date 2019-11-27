@@ -41,23 +41,11 @@ class Application
         }
 
         require_once ("init.php");
-
-        if (!empty($environment)){
-            foreach ($environment as $key=>$value){
-                if (isset(Config_Db::$$key)){
-                    Config_Db::$$key=$value;
-                }
-            }
-        }
     }
 
     public function run()
     {
         header("Content-Type:text/html; charset=\"".Gc::$encoding."\"");
-        $router =new Router();
-        Dispatcher::dispatch($router);
-        ob_end_flush();
-        $router=null;
         LogMe::showLogs();
         e_view();//Debug模式下打印异常
     }
