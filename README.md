@@ -98,6 +98,15 @@
   - log    : 日志目录，每天一个调试测试日志文件放在这里
   - upload : 后台上传下载文件(如excel)放置目录 
 
+## 目录权限设置
+
+    - 如果是Linux、Mac 系统，需要设置以下目录权限为完全可读写。
+      - log     
+      - upload 
+      - 执行命令如下:
+        > sudo mkdir log/ upload/
+        > sudo chmod -R 0777 log/ upload/
+    
 ## 服务器配置模式
 
   - 在 www/js/main.js 里配置 isConfigLocal
@@ -106,6 +115,7 @@
     - 默认存储在本地浏览器localStorage里，确保使用工具千人千面。
 
 ## 参考资料
+
 * **Betterlife**
   > https://threejs.org/docs/index.html#manual/en/introduction/How-to-run-things-locally
 * **Betterlife.Front**

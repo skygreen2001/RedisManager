@@ -594,7 +594,7 @@ var app = new Vue({
             let result = this.result;
             if ( result ) {
                 if ( this.valType == 1 ) {
-                    result = result.replace(/\s+/g, "");
+                    // result = result.replace(/\s+/g, "");
                 } else {
                     result = result.trim().replace(/\n/g, "<(||)>");
                 }
@@ -654,7 +654,7 @@ var app = new Vue({
             let addNewValue = this.addNewValue;
             if ( addNewValue ) {
                 if ( this.addNewType == "STRING" ) {
-                    addNewValue = addNewValue.replace(/\s+/g, "");
+                    // addNewValue = addNewValue.replace(/\s+/g, "");
                 } else {
                     addNewValue = addNewValue.trim().replace(/\n/g, "<(||)>");
                     // console.log(result);
