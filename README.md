@@ -120,6 +120,8 @@
   > https://threejs.org/docs/index.html#manual/en/introduction/How-to-run-things-locally
 * **Betterlife.Front**
   > https://github.com/skygreen2001/betterlife.front/tree/master/web/vuejs
+* **Redis**
+  > https://redis.io
 * **本地运行服务器**
   > https://threejs.org/docs/index.html#manual/en/introduction/How-to-run-things-locally
 * **安装Composer**

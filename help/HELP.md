@@ -32,7 +32,11 @@
     
       ![主界面](ui/main.jpg)
 
-    - 主界面
+    - 主界面 
+      - 顶部: 菜单栏
+      
+
+
 
       ![主界面](ui/core.jpg)
 
@@ -52,35 +56,103 @@
 
   - 设置设备(服务器)
     - 第一次打开页面的时候，会自动弹出设置设备(服务器)页面
+
+      ![设置界面](ui/config/config.jpg)
+
     - 点击左上角的新增按钮，弹出新增设备配置界面，会有以下五项填入项，标识、名称、服务器为必填项，端口如果，如无密码则不需要填写密码。
       - 标识: 必填项，自定义，是设备服务器唯一标识,一般为英文、数字如: prod,dev,local,127。
       - 名称: 必填项，自定义，是设备服务器的易记住的名称，一般为中文等如: 生产服务器、测试服务器、本地服务器等。
       - 服务器: 必填项，Redis服务器IP地址或者域名
       - 端口: 非必填项，Redis服务器服务端口，不填写则为Redis默认端口:6379。
       - 密码: 非必填项，如无密码则不需要填写密码。
+
+      ![添加设备(服务器)设置界面](ui/config/add.jpg)
+
     - 添加完成配置后
+
+      ![添加完成设备(服务器)设置界面后](ui/config/config_f.jpg)
+
+    - 点击已添加设备(服务器)设置右侧的编辑按钮
+
+      ![编辑按钮](ui/config/edit_btn.jpg)
+
     - 编辑已添加过的配置
+
+      ![编辑已添加过的配置](ui/config/edit.jpg)
+
+    - 点击已添加设备(服务器)设置右侧的删除按钮
+
+      ![删除按钮](ui/config/delete_btn.jpg)
+
     - 删除无效或不再使用的配置
+
+      ![删除再次确认](ui/config/delete.jpg)
+
     - 完成配置设置后关闭设置窗口后
-  
+
+      ![完成配置设置后](ui/config/finish.jpg)
+
   - 选择设备(服务器)
+
     - 选择指定的设备(服务器)
+
+      ![选择本地服务器](ui/step1a.jpg)
+
     - 选择设备(服务器)后
+
+      ![获取本地服务器下所有DB](ui/step1b.jpg)
+
   - 选择DB
+
     - 选择DB
+
+      ![选择db3](ui/step2a.jpg)
+
     - 选择DB后显示
+
+      ![选择db3后](ui/step2b.jpg)
+
     - 选择DB后主界面左侧列表键(key)显示
+
+      ![列表所有db3的键(key)](ui/step2c.jpg)
+
   - 筛选键(key)
+
     - 输入需寻找键(key)的关键字
+
+      ![输入关键字8587](ui/step3a.jpg)
+
     - 点选右侧的搜索按钮后
+
+      ![筛选带有8587关键字的所有键(key)列表](ui/step3b.jpg)
+
   - 新增键(key)值
+
     - Redis的键(key)的类型分为8种: STRING, SET, LIST, Sorted sets, Hashes, HyperLogLogs, Geocoding, Streams。
     - 本管理器支持的键(key)的类型有5种: STRING, SET, LIST, Sorted sets, Hashes; 其它3种: HyperLogLogs, Geocoding, Streams; 暂时没有使用场景，没有相应的功能，以后视实际情况再添加。
     - Java的对象序列化数据无法解析为可读的数据，暂不支持。
     - 点选左侧列表键(key)区域上方按钮区右侧新增按钮
+
+      ![新增键(key)按钮](ui/step4.jpg)
+
       - 新增String类型键(key)
+
+        ![选择键(key)类型: STRING](ui/step4a.jpg)
+
+      - 输入String类型键(key)值
+
+        ![新增键(key): skygreen2001](ui/step4b.jpg)
+
+      - 提示新增完成
+
+        ![提示新增键(key)完成](ui/step4c.jpg)
+
+      - 新增String类型键(key)完成
       - 新增Set类型键(key)
+      - 新增Set类型键(key)完成
+      - 通过命令行查看Set类型键(key)完成后情况
       - 新增LIST类型键(key)
+
       - 新增Sorted sets类型键(key)
       - 新增Hashes类型键(key)
 
