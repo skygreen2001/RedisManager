@@ -176,20 +176,20 @@ class Cache_Redis extends Cache_Base
         $type = "";
         $typeShow = strtoupper($typeShow);
         switch ($typeShow) {
-            case "STRING":
+            case "STRINGS":
                 $type = Redis::REDIS_STRING;
                 break;
-            case "SET":
+            case "SETS":
                 $type = Redis::REDIS_SET;
                 break;
-            case "LIST":
+            case "LISTS":
                 $type = Redis::REDIS_LIST;
                 break;
-            case "ZSET":
-            case "SORTED SET":
+            case "ZSETS":
+            case "SORTED SETS":
                 $type = Redis::REDIS_ZSET;
                 break;
-            case "HASH":
+            case "HASHES":
                 $type = Redis::REDIS_HASH;
                 break;
             case "OTHER":
@@ -208,22 +208,22 @@ class Cache_Redis extends Cache_Base
         $typeOfKey = "";
         switch ($type) {
             case Redis::REDIS_STRING:
-                $typeOfKey = "STRING";
+                $typeOfKey = "Strings";
                 break;
             case Redis::REDIS_SET:
-                $typeOfKey = "SET";
+                $typeOfKey = "Sets";
                 break;
             case Redis::REDIS_LIST:
-                $typeOfKey = "LIST";
+                $typeOfKey = "Lists";
                 break;
             case Redis::REDIS_ZSET:
-                $typeOfKey = "ZSET"; // "Sorted Set";
+                $typeOfKey = "Sorted Sets"; // "Sorted Sets";
                 break;
             case Redis::REDIS_HASH:
-                $typeOfKey = "HASH";
+                $typeOfKey = "Hashes";
                 break;
             case Redis::REDIS_NOT_FOUND:
-                $typeOfKey = "OTHER";
+                $typeOfKey = "Other";
                 break;
         }
         return $typeOfKey;

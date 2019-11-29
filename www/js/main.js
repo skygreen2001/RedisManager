@@ -45,6 +45,7 @@ var app = new Vue({
                 r_rt_ht: '600px'
             },
             configs        : {
+                data   : [], // 所有设备(服务器)配置数据
                 columns: [
                     {
                         title: '标识',
@@ -76,14 +77,35 @@ var app = new Vue({
                         align: 'center'
                     }
                 ],
-                data: [],
-                editIndex : -1,  // 当前聚焦的输入框的行数
+                addConfigForm: {
+                    configsForm: {
+                        editId    : '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
+                        editName  : '',  // 第二列输入框
+                        editServer: '',  // 第三列输入框
+                        editPort  : '',  // 第四列输入框
+                        editPasswd: '',  // 第五列输入框
+                    },
+                    ruleValidate: {
+                        editId: [
+                            { required: true, message: '请输入标识', trigger: 'blur' }
+                        ],
+                        editName: [
+                            { required: true, message: '请输入名称', trigger: 'blur' }
+                        ],
+                        editServer: [
+                            { required: true, message: '请输入服务器', trigger: 'blur' },
+                        ]
+                    }
+                },
+                editConfig: {
+                    editIndex : -1,  // 当前聚焦的输入框的行数
+                    editId    : '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
+                    editName  : '',  // 第二列输入框
+                    editServer: '',  // 第三列输入框
+                    editPort  : '',  // 第四列输入框
+                    editPasswd: '',  // 第五列输入框
+                },
                 deleteOne : -1,  // 被删除的行数
-                editId    : '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
-                editName  : '',  // 第二列输入框
-                editServer: '',  // 第三列输入框
-                editPort  : '',  // 第四列输入框
-                editPasswd: '',  // 第五列输入框
             },
             actionInfo : "",   // 确认操作窗口内容
         }
@@ -217,39 +239,41 @@ var app = new Vue({
             }
         },
         onEditConfig:function(row, index) {
-            this.configs.editId     = row.id;
-            this.configs.editName   = row.name;
-            this.configs.editServer = row.server;
-            this.configs.editPort   = row.port;
-            this.configs.editPasswd = row.password;
-            this.configs.editIndex  = index;
+            this.configs.editConfig.editId     = row.id;
+            this.configs.editConfig.editName   = row.name;
+            this.configs.editConfig.editServer = row.server;
+            this.configs.editConfig.editPort   = row.port;
+            this.configs.editConfig.editPasswd = row.password;
+            this.configs.editConfig.editIndex  = index;
         },
         onAddConfig() {
             this.addserverModel = true;
-            this.configs.editId     = "";
-            this.configs.editName   = "";
-            this.configs.editServer = "";
-            this.configs.editPort   = "";
-            this.configs.editPasswd = "";
-            this.configs.editIndex  = -1;
-
+            this.configs.addConfigForm.configsForm.editId     = "";
+            this.configs.addConfigForm.configsForm.editName   = "";
+            this.configs.addConfigForm.configsForm.editServer = "";
+            this.configs.addConfigForm.configsForm.editPort   = "";
+            this.configs.addConfigForm.configsForm.editPasswd = "";
         },
-        onSaveConfig: function(index) {
-            var ctrl = this;
+        onCancelAddConfig: function() {
+            this.addserverModel = false;
+        },
+        onSaveConfig: function() {
             let params = {
                 ca      : 1,
-                id      : this.configs.editId,
-                name    : this.configs.editName,
-                server  : this.configs.editServer,
-                port    : this.configs.editPort,
-                password: this.configs.editPasswd
+                id      : this.configs.addConfigForm.configsForm.editId.trim(),
+                name    : this.configs.addConfigForm.configsForm.editName.trim(),
+                server  : this.configs.addConfigForm.configsForm.editServer.trim(),
+                port    : this.configs.addConfigForm.configsForm.editPort.trim(),
+                password: this.configs.addConfigForm.configsForm.editPasswd.trim()
+            };
+            if ( !params.id || !params.name || !params.server ) {
+                this.$Modal.error({
+                    title: '新增错误',
+                    content: '请确认设备(服务器)配置是否填写正确！'
+                });
+                return ;
             }
-            if ( index >= 0 ) {
-                params.ca = 2;
-                // if (this.configs.data[index].id != this.configs.editId) {
-                params.oid = this.configs.data[index].id;
-                // }
-            }
+            if ( !params.port ) params.port = "6379";
 
             if ( this.isConfigLocal ) {
                 let data = []
@@ -257,13 +281,7 @@ var app = new Vue({
                     data = JSON.parse(localStorage.configs);
                 }
                 delete params.ca;
-                if ( index >= 0 ) {
-                    let index = data.findIndex(e => e.id == params.oid);
-                    delete params.oid;
-                    data[index] = params;
-                } else {
-                    data.push(params);
-                }
+                data.push(params);
 
                 localStorage.configs = JSON.stringify(data);
                 this.getServers();
@@ -279,24 +297,78 @@ var app = new Vue({
                      });
             }
 
-            if ( index >= 0 ) {
-                this.configs.data[index].id       = this.configs.editId;
-                this.configs.data[index].name     = this.configs.editName;
-                this.configs.data[index].server   = this.configs.editServer;
-                this.configs.data[index].port     = this.configs.editPort;
-                this.configs.data[index].password = this.configs.editPasswd;
-            } else {
-                let record = params;
-                delete record.action;
-                this.configs.data.push(record);
+            let record = params;
+            delete record.action;
+            this.configs.data.push(record);
+
+            this.configs.addConfigForm.configsForm.editId     = "";
+            this.configs.addConfigForm.configsForm.editName   = "";
+            this.configs.addConfigForm.configsForm.editServer = "";
+            this.configs.addConfigForm.configsForm.editPort   = "";
+            this.configs.addConfigForm.configsForm.editPasswd = "";
+            this.addserverModel = false;
+        },
+        onSaveEditConfig: function(index) {
+            if ( index < 0 ) {
+                return ;
+            }
+            let params = {
+                ca      : 2,
+                id      : this.configs.editConfig.editId.trim(),
+                oid     : this.configs.data[index].id,
+                name    : this.configs.editConfig.editName.trim(),
+                server  : this.configs.editConfig.editServer.trim(),
+                port    : this.configs.editConfig.editPort.trim(),
+                password: this.configs.editConfig.editPasswd.trim()
+            };
+            if ( !params.id || !params.name || !params.server ) {
+                this.$Modal.error({
+                    title: '编辑错误',
+                    content: '请确认设备(服务器)配置是否填写正确！'
+                });
+                return ;
+            }
+            if ( !params.port.trim() ) {
+                params.port = "6379";
+                this.configs.editConfig.editPort = 6379;
             }
 
-            this.configs.editIndex  = -1;
-            this.configs.editId     = "";
-            this.configs.editName   = "";
-            this.configs.editServer = "";
-            this.configs.editPort   = "";
-            this.configs.editPasswd = "";
+            if ( this.isConfigLocal ) {
+                let data = []
+                if ( localStorage.configs ) {
+                    data = JSON.parse(localStorage.configs);
+                }
+                delete params.ca;
+                let index = data.findIndex(e => e.id == params.oid);
+                delete params.oid;
+                data[index] = params;
+
+                localStorage.configs = JSON.stringify(data);
+                this.getServers();
+            } else {
+                axios.get(this.apiUrl, {
+                          params: params
+                       })
+                     .then(function (response) {
+                         // console.log(response);
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
+            }
+
+            this.configs.data[index].id       = this.configs.editConfig.editId;
+            this.configs.data[index].name     = this.configs.editConfig.editName;
+            this.configs.data[index].server   = this.configs.editConfig.editServer;
+            this.configs.data[index].port     = this.configs.editConfig.editPort;
+            this.configs.data[index].password = this.configs.editConfig.editPasswd;
+        
+            this.configs.editConfig.editIndex  = -1;
+            this.configs.editConfig.editId     = "";
+            this.configs.editConfig.editName   = "";
+            this.configs.editConfig.editServer = "";
+            this.configs.editConfig.editPort   = "";
+            this.configs.editConfig.editPasswd = "";
         },
         onDeleteConfig:function(row, index) {
             this.actionInfo        = "删除后将不能恢复，确认要删除" + row.name + "[" + row.id + "]?";
@@ -637,9 +709,9 @@ var app = new Vue({
                  });
         },
         changeKeyType: function() {
-            if ( this.addNewType == "SET" || this.addNewType == "LIST" || this.addNewType == "ZSET" ) {
+            if ( this.addNewType == "Sets" || this.addNewType == "Lists" || this.addNewType == "Sorted Sets" ) {
                 this.valueSample = "列表集合每个元素之间以换行作为分割";
-            } else if ( this.addNewType == "HASH" ) {
+            } else if ( this.addNewType == "Hashes" ) {
                 this.valueSample = "<p style='color:#515a6e;'>HASH的键值格式如下:<br/></p><p style='width:20%;text-align:left;margin-left:10%;'>hashKey: val<br/>hashKey1: val1<br/>hashKey2: val2<br/></sp>";
             } else {
                 this.valueSample = "";
@@ -653,7 +725,7 @@ var app = new Vue({
             var ctrl        = this;
             let addNewValue = this.addNewValue;
             if ( addNewValue ) {
-                if ( this.addNewType == "STRING" ) {
+                if ( this.addNewType == "Strings" ) {
                     // addNewValue = addNewValue.replace(/\s+/g, "");
                 } else {
                     addNewValue = addNewValue.trim().replace(/\n/g, "<(||)>");
@@ -670,7 +742,7 @@ var app = new Vue({
                       params: params
                    })
                  .then(function (response) {
-                     var data  = response.data;
+                    //  var data  = response.data;
                      ctrl.keys = response.data;
                      ctrl.isLoadingShow = false;
                      ctrl.$Modal.success({
@@ -776,28 +848,31 @@ var app = new Vue({
             }
         },
         valTypeShow: function(valType) {
-            let result = "STRING";
+            let result = "Strings";
             switch (valType) {
                 case 1:
-                    result = "STRING";
+                    result = "Strings";
                     break;
                 case 2:
-                    result = "SET";
+                    result = "Sets";
                     break;
                 case 3:
-                    result = "LIST";
+                    result = "Lists";
                     break;
                 case 4:
-                    result = "ZSET";
+                    result = "Sorted Sets";
                     break;
                 case 5:
-                    result = "HASH";
+                    result = "Hashes";
                     break;
                 default:
-                    result = "OTHER";
+                    result = "Other";
                     break;
             }
             return result;
+        },
+        goGit: function() {
+            window.open("https://github.com/skygreen2001/RedisManager", "_blank");
         },
         initLayout: function() {
             let offsetH  = 190;

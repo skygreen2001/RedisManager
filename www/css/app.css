@@ -78,13 +78,13 @@ Content div span {
     padding: 0px;
 }
 
-.vertical-center-modal {
+.vertical-center-modal, .ivu-modal-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.vertical-center-modal .ivu-modal {
+.vertical-center-modal .ivu-modal, .ivu-modal-wrap .ivu-modal {
     top: 0;
 }
 
@@ -100,13 +100,32 @@ Content div span {
 .ip_modalDiv .ivu-menu {
     float: none;
 }
+
+.ivu-form-item {
+    margin-bottom: 8px;
+}
+
+.ivu-input-group-prepend {
+    min-width: 69px;
+}
+
+.ivu-form-item-required .ivu-input-group-prepend span:before {
+    content: '*';
+    display: inline-block;
+    margin-right: 4px;
+    line-height: 1;
+    font-family: SimSun;
+    font-size: 14px;
+    color: #ed4014;
+}
+
 /************************* Layout:  footer start ************************/
 
 footer {
-    pointer-events: none;
+    /* pointer-events: none; */
     position: fixed;
     display: block;
-    z-index: 10000;
+    z-index: 1000;
     line-height: 30px;
     background-color: rgba(0, 0, 0, 0.4);
     color: #fff;
