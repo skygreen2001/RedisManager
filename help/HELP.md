@@ -94,15 +94,21 @@
 
     - 完成配置关闭设置窗口后
 
+      - 顶部菜单栏只有菜单: 设备
+
       ![完成配置设置后](ui/config/finish.jpg)
 
   - 选择设备(服务器)
 
     - 选择指定的设备(服务器)
+      - 菜单设备的命名规则: 名称(标识)
+      - 选择设备: 本地服务器(127)
 
       ![选择本地服务器](ui/step1a.jpg)
 
     - 选择设备(服务器)后，获取该服务器下所有DB
+      - 顶部菜单栏新增一个菜单: DB
+      - 点选菜单: DB后会显示该服务器下所有DB的列表
 
       ![获取该服务器下所有DB](ui/step1b.jpg)
 
@@ -119,6 +125,21 @@
     - 选择DB后主界面左侧列表键(key)显示
 
       ![列表所有db3的键(key)](ui/step2c.jpg)
+
+  - 查看键(key)值
+  
+    - 点选想要查看或者编辑的键(key): TS_history_8587_174267
+      - 点选前，右侧内容键(key)值区删除按钮为灰色，不可操作
+      - 点选前，右侧内容键(key)值区修改按钮为灰色，不可操作
+    
+      ![显示键(key)值:TS_history_8587_174267](ui/step3c.jpg)
+
+    - 显示键(key)值:TS_history_8587_174267
+      - 点选后，右侧内容键(key)值区显示键(key)类型: Strings
+      - 点选后，右侧内容键(key)值区删除按钮为蓝色，可操作
+      - 点选后，右侧内容键(key)值区修改按钮为蓝色，可操作
+    
+      ![显示键(key)值:TS_history_8587_174267](ui/step3d.jpg)
 
   - 筛选键(key)
 
@@ -142,35 +163,39 @@
 
       ![新增键(key)按钮](ui/step4.jpg)
 
-      - 新增Strings类型键(key)
+      - 新增Strings类型键(key): skygreen2019
 
         ![选择键(key)类型: Strings](ui/step4a.jpg)
 
-      - 输入Strings类型键(key)值
+      - 输入Strings类型键(key)值: better city, better life
 
-        ![新增键(key): skygreen2001](ui/step4b.jpg)
+        ![新增键(key): skygreen2019](ui/step4b.jpg)
 
-      - 提示新增完成
+      - 提示新增完成: 新增[skygreen2019]的值成功！
 
         ![提示新增键(key)完成](ui/step4c.jpg)
 
       - 新增Strings类型键(key)完成
 
-        ![新增键(key): skygreen2001完成](ui/step4d.jpg)
+        ![新增键(key): skygreen2019完成](ui/step4d.jpg)
 
-      - 新增Sets类型键(key)
+      - 新增Sets类型键(key): skygreen2001
+
+        - 列表集合每个元素之间以换行作为分割
       
         ![新增Sets类型键(key)](ui/step4e.jpg)
 
       - 新增Sets类型键(key)完成
       
-        ![新增Sets类型键(key)](ui/step4f.jpg)
+        ![新增Sets类型键(key)完成](ui/step4f.jpg)
 
       - 通过命令行查看Sets类型键(key)完成后情况
       
         ![通过命令行查看Sets类型键(key)](ui/step4g.jpg)
 
-      - 新增Lists类型键(key)
+      - 新增Lists类型键(key): better2019
+
+        - 列表集合每个元素之间以换行作为分割
       
         ![新增Lists类型键(key)](ui/step4h.jpg)
 
@@ -178,25 +203,34 @@
 
         ![新增Lists类型键(key)完成](ui/step4i.jpg)
 
-      - 新增Sorted sets类型键(key)
+      - 新增Sorted sets类型键(key): goodDay
+        
+        - 列表集合每个元素之间以换行作为分割
       
-        ![新增Set类型键(key)](ui/step4j.jpg)
+        ![新增Sorted sets类型键(key)](ui/step4j.jpg)
 
       - 新增Sorted sets类型键(key)完成
       
-        ![新增Set类型键(key)完成](ui/step4k.jpg)
+        ![新增Sorted sets类型键(key)完成](ui/step4k.jpg)
       
-      - 新增Hashes类型键(key)
+      - 新增Hashes类型键(key): betterHash
         
-        ![新增Set类型键(key)](ui/step4l.jpg)
+        - HASH的键值格式如下:
+          ```
+          hashKey: val
+          hashKey1: val1
+          hashKey2: val2
+          ```
+
+        ![新增Hashes类型键(key)](ui/step4l.jpg)
 
       - 新增Hashes类型键(key)完成
         
-        ![新增Set类型键(key)](ui/step4m.jpg)
+        ![新增Hashes类型键(key)完成](ui/step4m.jpg)
 
       - 通过命令行查看Hashes类型键(key)完成后情况
         
-        ![新增Set类型键(key)](ui/step4n.jpg)
+        ![通过命令行查看Hashes类型键(key)](ui/step4n.jpg)
 
   - 修改键(key)值
 
