@@ -15,13 +15,13 @@
   
 ## 界面UI分解
 
-  - 主要界面分4个
+  - 主要界面分5个
     - 设置界面
     - 主界面
     - 新增键(key)界面
     - 导入上传界面
+    - 删除DB界面
   
-
   - 界面UI如下
 
     - 设置界面
@@ -34,9 +34,9 @@
 
     - 主界面 
       - 顶部: 菜单栏
-      
-
-
+      - 左侧: 列表键(key)区
+      - 右侧: 内容键(key)值区
+      - 底部: 标题栏区
 
       ![主界面](ui/core.jpg)
 
@@ -47,6 +47,10 @@
     - 导入上传界面
 
       ![导入上传界面](ui/step5b.jpg)
+
+    - 删除DB界面
+
+      ![删除DB界面](ui/step9b.jpg)
 
 ## 功能详解
 
@@ -88,7 +92,7 @@
 
       ![删除再次确认](ui/config/delete.jpg)
 
-    - 完成配置设置后关闭设置窗口后
+    - 完成配置关闭设置窗口后
 
       ![完成配置设置后](ui/config/finish.jpg)
 
@@ -98,9 +102,9 @@
 
       ![选择本地服务器](ui/step1a.jpg)
 
-    - 选择设备(服务器)后
+    - 选择设备(服务器)后，获取该服务器下所有DB
 
-      ![获取本地服务器下所有DB](ui/step1b.jpg)
+      ![获取该服务器下所有DB](ui/step1b.jpg)
 
   - 选择DB
 
@@ -128,18 +132,21 @@
 
   - 新增键(key)值
 
-    - Redis的键(key)的类型分为8种: STRING, SET, LIST, Sorted sets, Hashes, HyperLogLogs, Geocoding, Streams。
-    - 本管理器支持的键(key)的类型有5种: STRING, SET, LIST, Sorted sets, Hashes; 其它3种: HyperLogLogs, Geocoding, Streams; 暂时没有使用场景，没有相应的功能，以后视实际情况再添加。
+    - Redis的键(key)的类型分为8种: Strings, Sets, Lists, Sorted sets, Hashes, HyperLogLogs, Geocoding, Streams。
+
+    - 本管理器支持的键(key)的类型有5种: Strings, Sets, Lists, Sorted sets, Hashes; 其它3种: HyperLogLogs, Geocoding, Streams; 暂时没有使用场景，没有相应的功能，以后视实际情况再添加。
+
     - Java的对象序列化数据无法解析为可读的数据，暂不支持。
+
     - 点选左侧列表键(key)区域上方按钮区右侧新增按钮
 
       ![新增键(key)按钮](ui/step4.jpg)
 
-      - 新增String类型键(key)
+      - 新增Strings类型键(key)
 
-        ![选择键(key)类型: STRING](ui/step4a.jpg)
+        ![选择键(key)类型: Strings](ui/step4a.jpg)
 
-      - 输入String类型键(key)值
+      - 输入Strings类型键(key)值
 
         ![新增键(key): skygreen2001](ui/step4b.jpg)
 
@@ -147,19 +154,145 @@
 
         ![提示新增键(key)完成](ui/step4c.jpg)
 
-      - 新增String类型键(key)完成
-      - 新增Set类型键(key)
-      - 新增Set类型键(key)完成
-      - 通过命令行查看Set类型键(key)完成后情况
-      - 新增LIST类型键(key)
+      - 新增Strings类型键(key)完成
+
+        ![新增键(key): skygreen2001完成](ui/step4d.jpg)
+
+      - 新增Sets类型键(key)
+      
+        ![新增Sets类型键(key)](ui/step4e.jpg)
+
+      - 新增Sets类型键(key)完成
+      
+        ![新增Sets类型键(key)](ui/step4f.jpg)
+
+      - 通过命令行查看Sets类型键(key)完成后情况
+      
+        ![通过命令行查看Sets类型键(key)](ui/step4g.jpg)
+
+      - 新增Lists类型键(key)
+      
+        ![新增Lists类型键(key)](ui/step4h.jpg)
+
+      - 新增Lists类型键(key)完成
+
+        ![新增Lists类型键(key)完成](ui/step4i.jpg)
 
       - 新增Sorted sets类型键(key)
+      
+        ![新增Set类型键(key)](ui/step4j.jpg)
+
+      - 新增Sorted sets类型键(key)完成
+      
+        ![新增Set类型键(key)完成](ui/step4k.jpg)
+      
       - 新增Hashes类型键(key)
+        
+        ![新增Set类型键(key)](ui/step4l.jpg)
+
+      - 新增Hashes类型键(key)完成
+        
+        ![新增Set类型键(key)](ui/step4m.jpg)
+
+      - 通过命令行查看Hashes类型键(key)完成后情况
+        
+        ![新增Set类型键(key)](ui/step4n.jpg)
 
   - 修改键(key)值
+
+    - 点选右侧内容键(key)值区域上方按钮区右侧修改按钮
+        
+        ![点选右侧修改按钮](ui/step7a.jpg)
+
+    - 提示修改键(key)值完成
+
+        ![修改键(key)值](ui/step7b.jpg)
+
+    - 修改键(key)值完成后右侧内容键(key)值区显示
+
+        ![修改键(key)值](ui/step7d.jpg)
+
   - 删除键(key)值
+    - 点选右侧内容键(key)值区域上方按钮区右侧删除按钮
+    
+        ![点选右侧删除按钮](ui/step8a.jpg)
+
+    - 提示删除键(key)值完成
+
+        ![删除键(key)值](ui/step8c.jpg)
+
   - 批量导入所有键(key)
+  
+    - 导入所有键(key)的Excel表格内容
+    
+        ![Excel表格内容](ui/step5.jpg)
+
+    - 点击左侧列表键(key)区域上方按钮区右侧导入按钮
+
+        ![导入按钮](ui/step5a.jpg)
+
+    - 弹出上传文件窗口
+        
+        ![上传文件窗口](ui/step5b.jpg)
+
+    - 选择需导入所有键(key)的Excel文件
+
+        ![选择Excel文件](ui/step5c.jpg)
+
+    - 点击确定按钮后，导入所有键(key)
+    
+        ![删除键(key)值](ui/step5d.jpg)
+
   - 导出经筛选的所有键(key) 
+
+    - 点击左侧列表键(key)区域上方按钮区右侧导出按钮
+
+        ![导出按钮](ui/step6a.jpg)
+
+    - 导出所有键(key)的Excel表格内容
+
+        ![Excel表格内容](ui/step6b.jpg)
+
   - 导出所有键(key)
+
+    - 点击左侧列表键(key)区域上方按钮区右侧导出按钮
+
+        ![导出按钮](ui/step6a.jpg)
+
+    - 导出所有键(key)的Excel表格内容
+
+        ![Excel表格内容](ui/step6b.jpg)
+
   - 新增DB
+
+    - 点击顶部: 菜单栏 DB，选择菜单项: 新增DB
+
+        ![菜单项: 新增DB](ui/step8a.jpg)
+
+    - 顶部: 菜单栏 DB列表中有了新增的DB
+
+        ![新增的DB: db3](ui/step8b.jpg)
+
+    - 默认创建了一个键(key): createTime
+
+        ![默认创建键(key)](ui/step8c.jpg)
+
   - 删除DB
+
+    - 点击顶部: 菜单栏 DB，选择菜单项: 删除DB
+
+        ![菜单项: 删除DB](ui/step9a.jpg)
+
+    - 在弹窗里选择需要删除的DB
+
+        ![选择需要删除的DB: db3](ui/step9b.jpg)
+
+    - 弹窗再次确认删除DB: db3
+
+        ![再次确认删除DB: db3](ui/step9c.jpg)
+
+    - DB列表中没有了已删除的DB: db3
+
+        ![没有了已删除的DB: db3](ui/step9d.jpg)
+
+
