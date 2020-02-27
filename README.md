@@ -128,3 +128,7 @@
   > http://www.phpcomposer.com/
 * **下载PhpSpreadsheet**
   > https://github.com/PHPOffice/PhpSpreadsheet
+
+* **Docker 安装 Redis 管理器**
+  > https://hub.docker.com/r/erikdubbelboer/phpredisadmin
+  > phpRedisAdmin: https://dubbelboer.com/phpRedisAdmin
