@@ -15,6 +15,14 @@
   > git clone git@github.com:skygreen2001/RedisManager.git
   ```
 
+* **Redis系统数据监控帮助手册**
+
+  帮助手册: https://github.com/skygreen2001/RedisManager/blob/master/help/HELP.md
+
+* **Redis系统数据监控示例**
+
+  示例: http://redis.itasktour.com
+
 ## 运行环境安装
 
   以下工具任选一种即可
