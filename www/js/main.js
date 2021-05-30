@@ -874,6 +874,30 @@ var app = new Vue({
         goGit: function() {
             window.open("https://github.com/skygreen2001/RedisManager", "_blank");
         },
+        isPhpRedis: function() {
+            var ctrl = this;
+            let params        = {}
+            params.isPhpRedis = true;
+            this.isLoadingShow = true;
+
+            axios.get(this.apiUrl, {
+                params: params
+            })
+            .then(function (response) {
+                ctrl.isLoadingShow = false;
+                var data = response.data;
+                if ( !data ) {
+                    ctrl.$Modal.success({
+                        title: '信息',
+                        content: '需要安装php redis，详情查看core/cache/redis/Cache_Redis.php类注解！'
+                    });
+                }
+            })
+            .catch(function (error) {
+                ctrl.isLoadingShow = false;
+                console.log(error);
+            });
+        },
         initLayout: function() {
             let offsetH  = 190;
             let c_height = (window.innerHeight - offsetH) +'px';
@@ -900,6 +924,8 @@ var app = new Vue({
     },
     mounted() {
         this.initLayout();
+
+        this.isPhpRedis();
 
         window.onresize = () => {
             return (() => {
