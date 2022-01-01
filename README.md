@@ -4,6 +4,10 @@
 主要采用betterlife框架、betterlife.front框架中[web/vuejs]模块快速开发而成。
 底层前端主要使用了Vuejs、iView框架；后端使用了PhpRedis、PhpSpreadsheet框架。
 
+## 帮助文档
+
+- [帮助文档](help/HELP.md)
+
 ## 安装说明
 
 * **通过Github官网下载**
