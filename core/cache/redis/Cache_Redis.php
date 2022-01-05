@@ -177,7 +177,7 @@ class Cache_Redis extends Cache_Base
         $type = "";
         $typeShow = strtoupper($typeShow);
         switch ($typeShow) {
-            case "STRINGS":
+            case "STRINGS":
                 $type = Redis::REDIS_STRING;
                 break;
             case "SETS":

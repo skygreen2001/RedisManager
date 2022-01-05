@@ -37,6 +37,7 @@ services:
 
   redis:
     image: redis:4.0.1
+    # image: redis:6.2.6
     container_name: orm_redis
     command: redis-server --requirepass orm
     ports:
