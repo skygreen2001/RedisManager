@@ -94,6 +94,7 @@ class Cache_Redis extends Cache_Base
         } else {
             $this->redis->connect($host, $port);
         }
+        // LogMe::log( $this->redis );
         ob_clean();
         if ( empty($password) ) {
             $password = Config_Redis::$password;

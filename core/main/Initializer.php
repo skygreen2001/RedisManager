@@ -120,7 +120,7 @@ class Initializer
             $pos2 = strpos($phpver, ".", $pos1 + strlen("."));
             $pi= substr($phpver, 0, $pos2);
         }
-        if ( !function_exists("imagecreate") ) { echo "<p style='font: 15px/1.5em Arial;margin:15px;line-height:2em;'>没有安装GD模块支持,名称:php_gd2,请加载<br/>Ubuntu服务器下执行: sudo apt-get install php-gd && sudo apt-get install php5-gd php$pi-gd<br/></p>";$is_not_run_betterlife = true; }
+        // if ( !function_exists("imagecreate") ) { echo "<p style='font: 15px/1.5em Arial;margin:15px;line-height:2em;'>没有安装GD模块支持,名称:php_gd2,请加载<br/>Ubuntu服务器下执行: sudo apt-get install php-gd && sudo apt-get install php5-gd php$pi-gd<br/></p>";$is_not_run_betterlife = true; }
         if ( !function_exists("curl_init") ) { echo "<p style='font: 15px/1.5em Arial;margin:15px;line-height:2em;'>没有安装Curl模块支持,名称:php_curl,请加载<br/>Ubuntu服务器下执行: sudo apt-get install php-curl && sudo apt-get install php5-curl php$pi-curl<br/></p>";$is_not_run_betterlife = true; }
         if ( !function_exists("mb_check_encoding") ) { echo "<p style='font: 15px/1.5em Arial;margin:15px;line-height:2em;'>没有安装mbstring模块支持,名称:php_mbstring,请加载<br/>Ubuntu服务器下执行: sudo apt-get install php-mbstring php$pi-mbstring<br/></p>";$is_not_run_betterlife = true; }
         if ( $is_not_run_betterlife ) die();

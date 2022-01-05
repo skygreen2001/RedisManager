@@ -37,7 +37,7 @@ if ( !empty($step) ) {
         $password = @$_GET["password"];
     }
     $serverCache = BBCache::singleton()->redisServer($server, $port, $password);
-
+    // LogMe::log( $serverCache );
     $result = '';
     switch ($step) {
       // 查询Redis服务器设置列表
@@ -69,6 +69,9 @@ if ( !empty($step) ) {
             }
             $dbIndex += 1;
         }
+        $dbIndex += 1;
+        // LogMe::log( "dbIndex:" . $dbIndex );
+        // print_r($serverCache);
         $serverCache->select($dbIndex);
         $serverCache->save("createTime", UtilDateTime::now());
         $dbs = $serverCache->dbInfos();
@@ -87,6 +90,7 @@ if ( !empty($step) ) {
       // 查询指定服务器所有的DB
       case 1:
         $dbs = $serverCache->dbInfos();
+        LogMe::log( $dbs );
         if ( $dbs && is_array($dbs) && count($dbs) > 0 ) {
             $result = array_keys($dbs);
         }

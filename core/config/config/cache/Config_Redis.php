@@ -21,12 +21,12 @@ class Config_Redis extends ConfigBB
      * 主机地址
      * @var mixed
      */
-    public static $host = "192.168.64.1";
+    public static $host = "127.0.0.1";
     /**
      * 端口
      * @var mixed
      */
-    public static $port = 8368;
+    public static $port = 6379;
     /**
      * 密码
      * @var mixed
