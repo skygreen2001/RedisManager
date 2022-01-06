@@ -21,7 +21,8 @@ class Config_Redis extends ConfigBB
      * 主机地址
      * @var mixed
      */
-    public static $host = "127.0.0.1";
+    // public static $host = "127.0.0.1";
+    public static $host = "redis";
     /**
      * 端口
      * @var mixed
@@ -31,7 +32,7 @@ class Config_Redis extends ConfigBB
      * 密码
      * @var mixed
      */
-    public static $password = "";
+    public static $password = "orm";
     /**
      * @var boolean 是否持久化Redis通道的链接
      * @static

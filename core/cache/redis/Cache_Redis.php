@@ -342,7 +342,8 @@ class Cache_Redis extends Cache_Base
                 $this->redis->setNx($key, $value);
                 break;
         }
-        $now = time(NULL); // current timestamp
+        // $now = time(NULL); // current timestamp
+        $now = time(); // current timestamp
         $this->redis->expireAt($key, $now + $expired);
     }
 
