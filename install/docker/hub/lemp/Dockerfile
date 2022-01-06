@@ -1,6 +1,5 @@
 FROM composer as composer
-COPY install/composer.json /app/
-# COPY install/composer.json install/composer.lock /app/
+COPY composer.json /app/
 RUN set -x ; cd /app && \
     composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ && \
     composer install \
@@ -21,7 +20,7 @@ LABEL maintainer="skygreen2001" \
 ARG BB_PATH=/var/www/
 
 COPY . ${BB_PATH}
-COPY --from=composer /app/vendor/ ${BB_PATH}install/vendor/
+COPY --from=composer /app/install/vendor/ ${BB_PATH}install/vendor/
 
 RUN cd ${BB_PATH} && \
     mkdir -p upload && \

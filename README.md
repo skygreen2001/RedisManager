@@ -108,6 +108,13 @@
   - 删除所有的容器: docker rm orm
   - 删除生成的镜像: docker rmi skygreen2021/orm
 
+* **使用说明**
+
+- 浏览器打开网页: http://localhost/www/index.html
+- 菜单选择: 设备 -> 设置 -> 新增
+  - 服务器地址: redis
+  - 端口     : 6379
+  - 密码     : orm
 
 ### 本地Docker 运行应用
 

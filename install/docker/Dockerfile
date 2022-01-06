@@ -2,7 +2,6 @@ ARG PHP_VERSION=7.4
 
 FROM composer as composer
 COPY composer.json /app/
-# COPY install/composer.json install/composer.lock /app/
 RUN set -x ; cd /app && \
     composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ && \
     composer install \
