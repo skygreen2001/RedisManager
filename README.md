@@ -1,7 +1,9 @@
 # Online Redis Manager
 
 符合中国开发者思维方式的在线Redis管理工具的框架，设计初衷快捷、简单、实用。
+
 主要采用betterlife框架、betterlife.front框架中[web/vuejs]模块快速开发而成。
+
 底层前端主要使用了Vuejs、iView框架；后端使用了PhpRedis、PhpSpreadsheet框架。
 
 ## 帮助文档
@@ -40,6 +42,14 @@
     > docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git clone https://github.com.cnpmjs.org/skygreen2001/RedisManager
     或
     > docker run -ti --rm -v ${HOME}:/root -v $(pwd):/git alpine/git clone https://gitee.com/skygreen2015/RedisManager
+    ```
+
+* **Composer安装**
+
+  - 下载orm
+
+    ```
+    > composer create-project skygreen2001/orm orm
     ```
 
 ## 通常安装
