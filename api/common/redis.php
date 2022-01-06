@@ -1,12 +1,12 @@
 <?php
-require_once ("../../init.php");
+require_once("../../init.php");
 
 header('Access-Control-Allow-Origin: *');
 header("Referrer-Policy: no-referrer");
 header('Content-Type:application/json;charset=UTF-8');
 
 /****************************************  初始化: 是否安装必备  ***********************************/
-$isPhpRedis   = @$_GET["isPhpRedis"];
+$isPhpRedis = @$_GET["isPhpRedis"];
 if ( !empty($isPhpRedis) ) {
     if ( class_exists("Redis") ) {
         echo true;
@@ -17,7 +17,7 @@ if ( !empty($isPhpRedis) ) {
 }
 
 /****************************************  菜单操作: 核心逻辑  ***********************************/
-$step   = @$_GET["step"];     // 菜单操作
+$step = @$_GET["step"];     // 菜单操作
 if ( !empty($step) ) {
     $isRemote  = @$_GET["isConfigRemote"];
     $server_id = @$_GET["server_id"];
@@ -41,7 +41,7 @@ if ( !empty($step) ) {
         $password = @$_GET["password"];
     }
     $serverCache = BBCache::singleton()->redisServer($server, $port, $password);
-    // LogMe::log( $serverCache );
+
     $result = '';
     switch ($step) {
       // 查询Redis服务器设置列表
@@ -67,22 +67,21 @@ if ( !empty($step) ) {
         $dbs = array_keys($dbs);
         $dbIndex = 0;
         foreach ($dbs as $db) {
-            $serverCache->select($dbIndex);
+            $serverCache->select( $dbIndex );
             if ( $serverCache->size() <= 0 ) {
                 break;
             }
             $dbIndex += 1;
         }
-        $dbIndex += 1;
-        $serverCache->select($dbIndex);
-        $serverCache->save("createTime", UtilDateTime::now());
+        $serverCache->select( $dbIndex );
+        $serverCache->save( "createTime", UtilDateTime::now() );
         $dbs = $serverCache->dbInfos();
         $result = array_keys($dbs);
         break;
       // 删除DB
       case 102:
         $dbIndex = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         $serverCache->clear();
         $dbs = $serverCache->dbInfos();
         if ( $dbs && is_array($dbs) && count($dbs) > 0 ) {
@@ -94,8 +93,8 @@ if ( !empty($step) ) {
         $dbs = $serverCache->dbInfos();
         if ( is_array($dbs) && count($dbs) == 0 ) {
             $dbIndex = 0;
-            $serverCache->select($dbIndex);
-            $serverCache->save("createTime", UtilDateTime::now());
+            $serverCache->select( $dbIndex );
+            $serverCache->save( "createTime", UtilDateTime::now() );
             $dbs = $serverCache->dbInfos();
         }
         if ( $dbs && is_array($dbs) && count($dbs) > 0 ) {
@@ -105,9 +104,9 @@ if ( !empty($step) ) {
       // 查询|分页查询指定DB所有的keys
       case 2:
         $dbIndex  = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         $countAll = $serverCache->size();
-        $data   = $serverCache->keys();
+        $data     = $serverCache->keys();
         sort($data, SORT_STRING);
         $pageSize = @$_GET["pageSize"];
         if ( !$pageSize ) $pageSize = 1000;
@@ -131,28 +130,28 @@ if ( !empty($step) ) {
       // 查询指定key的value
       case 3:
         $dbIndex = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         $result         = array();
-        $result["type"] = $serverCache->getKeyType($key);
-        $result["data"] = $serverCache->get($key);
+        $result["type"] = $serverCache->getKeyType( $key );
+        $result["data"] = $serverCache->get( $key );
         // print_r($result);
         break;
       // 修改指定key的value
       case 4:
         $valType = @$_GET["valType"];
         $dbIndex = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         $serverCache->delete($key);
         $serverCache->set($key, $val, $valType);
         $result         = array();
-        $result["data"] = $serverCache->get($key);
-        $result["type"] = $serverCache->getKeyType($key);
+        $result["data"] = $serverCache->get( $key );
+        $result["type"] = $serverCache->getKeyType( $key );
         break;
       // 模糊查询指定关键词的所有key
       case 5:
         $queryKey = @$_GET["queryKey"];
         $dbIndex  = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         $data   = $serverCache->keys("*" . $queryKey . "*");
         $countAll = count($data);
         sort($data, SORT_STRING);
@@ -181,28 +180,28 @@ if ( !empty($step) ) {
         $addNewKey   = @$_GET["addNewKey"];
         $addNewValue = @$_GET["addNewValue"];
         $dbIndex     = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         if ( !empty($addNewType) ) {
-            $addNewType = $serverCache->getKeyTypeByShow($addNewType);
+            $addNewType = $serverCache->getKeyTypeByShow( $addNewType );
         }
-        $serverCache->save($addNewKey, $addNewValue, $addNewType);
+        $serverCache->save( $addNewKey, $addNewValue, $addNewType );
         $result      = $serverCache->keys();
         sort($result, SORT_STRING);
         break;
       // 删除指定key
       case 7:
         $dbIndex = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
-        $serverCache->delete($key);
+        $serverCache->select( $dbIndex );
+        $serverCache->delete( $key );
         $result  = true;
         break;
       // 导出
       case 8:
         $queryKey = @$_GET["queryKey"];
         $dbIndex = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         if ( !empty($queryKey) ) {
-            $keys = $serverCache->keys("*" . $queryKey . "*");
+            $keys = $serverCache->keys( "*" . $queryKey . "*" );
         } else {
             $keys = $serverCache->keys();
         }
@@ -214,9 +213,9 @@ if ( !empty($step) ) {
             sort($keys, SORT_STRING);
             foreach ($keys as $key) {
                 $data[$index][0] = $key;
-                $data[$index][1] = $serverCache->get($key);
-                $data[$index][2] = $serverCache->getKeyType($key);
-                $data[$index][2] = $serverCache->getKeyTypeShow($data[$index][2]);
+                $data[$index][1] = $serverCache->get( $key );
+                $data[$index][2] = $serverCache->getKeyType( $key );
+                $data[$index][2] = $serverCache->getKeyTypeShow( $data[$index][2] );
                 if ( $data[$index][1] && is_array($data[$index][1]) ) {
                     $data[$index][1] = json_encode($data[$index][1], JSON_OBJECT_AS_ARRAY | JSON_UNESCAPED_UNICODE);
                 }
@@ -238,9 +237,9 @@ if ( !empty($step) ) {
         $ufile      = @$_GET["ufile"];
         $uploadPath = GC::$upload_path . "redis" . DS . "import" . DS . $ufile;
         $arr_import_header = array("key" => "key", "value" => "value", "type" => "type");
-        $data    = UtilExcel::exceltoArray($uploadPath, $arr_import_header);
+        $data    = UtilExcel::exceltoArray( $uploadPath, $arr_import_header );
         $dbIndex = (int) str_replace("db", "", $db);
-        $serverCache->select($dbIndex);
+        $serverCache->select( $dbIndex );
         if ( $data && is_array($data) && count($data) > 0 ) {
             foreach ($data as $row) {
                 $addNewKey   = "";
@@ -251,7 +250,7 @@ if ( !empty($step) ) {
                 if ( array_key_exists("type", $row) ) $addNewType = $row["type"];
                 if ( !empty($addNewKey) && !empty($addNewValue) ) {
                     if ( !empty($addNewType) ) {
-                        $addNewType = $serverCache->getKeyTypeByShow($addNewType);
+                        $addNewType = $serverCache->getKeyTypeByShow( $addNewType );
                         if ( $addNewType == Redis::REDIS_SET ||
                              $addNewType == Redis::REDIS_LIST ||
                              $addNewType == Redis::REDIS_ZSET ||
@@ -261,8 +260,8 @@ if ( !empty($step) ) {
                             $addNewValue = implode("<(||)>", $addNewValue);
                         }
                     }
-                    $serverCache->delete($addNewKey);
-                    $serverCache->set($addNewKey, $addNewValue, $addNewType);
+                    $serverCache->delete( $addNewKey );
+                    $serverCache->set( $addNewKey, $addNewValue, $addNewType );
                 }
             }
         }
@@ -374,9 +373,9 @@ if ( !empty($action) ) {
     $result = '';
     $files = $_FILES;
     if ( !empty($files["upload_file"]) ) {
-        $diffpart = date("YmdHis");
-        $tmptail  = explode('.', $files["upload_file"]["name"]);
-        $tmptail  = end($tmptail);
+        $diffpart   = date("YmdHis");
+        $tmptail    = explode('.', $files["upload_file"]["name"]);
+        $tmptail    = end($tmptail);
         $uploadFile = "redis$diffpart.$tmptail";
         $uploadPath = GC::$upload_path . "redis" . DS . "import" . DS . $uploadFile;
         $result     = UtilFileSystem::uploadFile( $files, $uploadPath );
@@ -436,8 +435,7 @@ function server_config($server_id) {
     $config_need = $configs["data"];
     $id_key      = array_search($server_id, array_column($config_need, 'id'));
     if ( $id_key >= 0 ) {
-      $result = $config_need[$id_key];
+        $result = $config_need[$id_key];
     }
     return $result;
 }
-?>
