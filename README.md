@@ -141,7 +141,7 @@
 
   - [其它说明](install/docker/SETUP.md)
 
-## 云部署
+* **云平台**
 
 * [阿里云](https://market.aliyun.com/developer)
 * [Heroku](https://devcenter.heroku.com/categories/php)
