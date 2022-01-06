@@ -1,6 +1,7 @@
 {
   "name": "skygreen2001/orm",
   "version": "1.0.0",
+  "type": "project",
   "description": "a tool of online redis manager",
   "keywords": [
       "cms", "api", "php", "framework", "bb", "orm"
